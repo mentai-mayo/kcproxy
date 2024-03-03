@@ -1,4 +1,11 @@
-import { CommunicationData } from "./proxy/main";
+
+import fs from "node:fs";
+
+import { CommunicationData } from "./proxy/main.js";
+import { writeKcsApiLog } from "./filelog.js";
+
+/** /records/kcsapis (absolute / no_last_slash) */
+const log_dist = new URL(import.meta.resolve("../../records/kcsapis")).pathname.substring(process.platform === "win32" ? 1 : 0); // from /dist/sources/handler.js
 
 const kcips = [
   "203.104.209.7",
@@ -7,7 +14,7 @@ const kcips = [
   "125.6.184.215",
   "203.104.209.183",
   "203.104.209.150",
-  "203.104.209.134",
+  "203.104.209.134", // truk server
   "203.104.209.167",
   "203.104.209.199",
   "125.6.189.7",
@@ -31,6 +38,12 @@ export function handler(data: CommunicationData): void {
     console.log("\x1b[32mKanColle\x1b[0m", data.method, data.url.toString());
     console.log("req:", enc(data.request.headers["content-type"] ?? "", data.request.body));
     console.log("res:", enc(data.response.headers["content-type"] ?? "", data.response.body));
+
+    // kcsapi data => write to /records/kcsapis/[timing].json
+    if (data.url.pathname.includes("/kcsapi/")) {
+      // kcsapi communication
+      writeKcsApiLog(data);
+    }
   }
 }
 
