@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@swc/cli": "^0.3.10",
+    "@swc/core": "^1.4.2",
+    "@types/http-proxy": "^1.17.14",
+    "@types/node": "^20.11.24"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1"
+  },
+  "scripts": {
+    "build": "npx swc sources -d dist",
+    "start": "node dist/sources/main.js"
+  },
+  "type": "module"
+}
