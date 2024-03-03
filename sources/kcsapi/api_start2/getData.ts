@@ -206,17 +206,17 @@ export interface ResponseBody {
       api_tais: number;
       /** */
       api_atap: number;
-      /** 命中 */
+      /** (砲撃)命中 */
       api_houm: number;
-      /** ? */
+      /** (雷撃)命中 ? */
       api_raim: number;
       // 九七式艦攻: raim = 16
       // 天山:       raim = 24
       // 流星:       raim = 56
       // 九六式艦戦: raim =  0 (艦戦系は0っぽい)
-      /** 回避 */
+      /** (砲撃)回避 */
       api_houk: number;
-      /** */
+      /** (雷撃)回避 ? */
       api_raik: number;
       /** */
       api_bakk: number;
@@ -224,7 +224,7 @@ export interface ResponseBody {
       api_saku: number;
       /** */
       api_sakb: number;
-      /** */
+      /** 運 */
       api_luck: number;
       /**
        * 射程
@@ -240,7 +240,7 @@ export interface ResponseBody {
        * レアリティ
        * - 0: コモン
        * - 1: レア
-       * - 2: ホロ
+       * - 2: ホロ ? <-たぶんミス
        */
       api_rare: number;
       /** 廃棄 [ 燃料, 弾薬, 鋼材, ボーキ ] */
@@ -252,7 +252,7 @@ export interface ResponseBody {
     }[];
     /** 家具 */
     api_mst_furnituregraph: {
-      /** */
+      /** ID */
       api_id: number;
       /** */
       api_type: number;
@@ -265,75 +265,90 @@ export interface ResponseBody {
     }[];
     /** 消費アイテム */
     api_mst_useitem: {
-      /** */
+      /** ID */
       api_id: number;
       /** */
       api_usetype: number;
       /** */
       api_category: number;
-      /** */
+      /** アイテム名 */
       api_name: string;
-      /** */
+      /** 説明 */
       api_description: [ string, string ];
       /** */
       api_price: number;
     }[];
     /** 課金アイテム */
     api_mst_payitem: {
-      /** */
+      /** ID */
       api_id: number;
       /** */
       api_type: number;
-      /** */
+      /** アイテム名 */
       api_name: string;
-      /** */
+      /** 説明 */
       api_description: string;
-      /** */
+      /** ショップ説明 */
       api_shop_description: string;
-      /** */
+      /** 入手アイテム量 [ 燃料, 弾薬, 鋼材, ボーキ, 高速建造材, 高速修復材, 開発資材, 改修資材 ] */
       api_item: [ number, number, number, number, number, number, number, number ];
-      /** */
+      /** 価格 (DMMポイント) */
       api_price: number;
     }[];
-    /** */
+    /** アイテム屋さん 品揃え */
     api_mst_item_shop: {
-      /** */
+      /** アイテム屋さん レギュラーコーナー (12個) */
       api_cabinet_1: number[];
-      /** */
+      /** アイテム屋さん 特選コーナー (16個 / -1 は unset) */
       api_cabinet_2: number[];
     };
     /** 海域データ */
     api_mst_maparea: {
-      /** */
+      /** ID */
       api_id: number;
-      /** */
+      /** 海域名 */
       api_name: string;
-      /** */
+      /** 0: 通常海域, 1: イベント海域 */
       api_type: number;
-    }[];
-    /** */
+    }[]; // eg. { api_id: 58, api_name: "2024冬イベ", api_type: 1 }
+    /** マップデータ */
     api_mst_mapinfo: {
+      /** ID */
       api_id: number;
+      /** 所属海域 (7-1の7の部分) */
       api_maparea_id: number;
+      /** */
       api_no: number;
+      /** マップ名 */
       api_name: string;
+      /** */
       api_level: number;
+      /** 作戦名 */
       api_opetext: string;
+      /** 作戦内容 */
       api_infotext: string;
+      /** 主な出現アイテム */
       api_item: [ number, number, number, number ];
       /** ゲージHP */
       api_max_maphp: number | null;
       /** ゲージ撃破回数 */
       api_required_defeat_count: number | null;
+      /** */
       api_sally_flag: [ number, number, number ];
     }[];
-    /** */
+    /** 出撃BGM */
     api_mst_mapbgm: {
+      /** ID */
       api_id: number;
+      /** 海域ID ? */
       api_maparea_id: number;
+      /** */
       api_no: number;
+      /** 移動中BGM */
       api_moving_bgm: number;
+      /** 通常戦BGM [ 昼, 夜 ] ? */
       api_map_bgm: [ number, number ];
+      /** ボス戦BGM [ 昼, 夜 ] ? */
       api_boss_bgm: [ number, number ];
     }[];
     /** 遠征 */
