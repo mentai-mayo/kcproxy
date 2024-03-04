@@ -1,5 +1,5 @@
 
-import { _tools as defaults } from "../../kcsapi";
+import { _tools as defaults } from "../../kcsapi.js";
 
 const path = "/kcsapi/api_start2/getData";
 
@@ -494,6 +494,7 @@ export interface ResponseBody {
     })[];
   }
 }
+/** @deprecated なんかうまく動いてないっぽい */
 export function isResponseBody(target: any): target is ResponseBody {
   if (!defaults.isResponseBody(target)) return false;
   if (!(target.api_data.api_mst_ship instanceof Array)) return false;
