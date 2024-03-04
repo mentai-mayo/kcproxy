@@ -1,9 +1,16 @@
 
+import { _tools as defaults } from "../../kcsapi";
+
+const path = "/kcsapi/api_start2/getData";
+
 export interface RequestBody {
   /** hex */
   api_token: string;
   /**  */
   api_verno: `${ number }`;
+}
+export function isRequestBody(target: any): target is RequestBody {
+  return defaults.isRequestBody(target);
 }
 
 export interface ResponseBody {
@@ -486,4 +493,264 @@ export interface ResponseBody {
       api_version: [ `${ number }`, `${ number }`, `${ number }` ];
     })[];
   }
+}
+export function isResponseBody(target: any): target is ResponseBody {
+  if (!defaults.isResponseBody(target)) return false;
+  if (!(target.api_data.api_mst_ship instanceof Array)) return false;
+  for (const mst_ship of target.api_data.api_mst_ship) {
+    if (typeof mst_ship !== "object") return false;
+    if (typeof mst_ship.api_id !== "number") return false;
+    if (typeof mst_ship.api_sortno !== "number") return false;
+    if (typeof mst_ship.api_name !== "string") return false;
+    if (typeof mst_ship.api_yomi !== "string") return false;
+    if (typeof mst_ship.api_stype !== "number") return false;
+    if (typeof mst_ship.api_ctype !== "number") return false;
+    if (typeof mst_ship.api_afterlv !== "number") return false;
+    if (Number.isNaN(Number(mst_ship.api_aftershipid))) return false;
+    if (!(mst_ship.api_taik instanceof Array) || mst_ship.api_taik.length !== 2 || mst_ship.api_taik.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(mst_ship.api_souk instanceof Array) || mst_ship.api_souk.length !== 2 || mst_ship.api_souk.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(mst_ship.api_houg instanceof Array) || mst_ship.api_houg.length !== 2 || mst_ship.api_houg.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(mst_ship.api_raig instanceof Array) || mst_ship.api_raig.length !== 2 || mst_ship.api_raig.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(mst_ship.api_tyku instanceof Array) || mst_ship.api_tyku.length !== 2 || mst_ship.api_tyku.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(mst_ship.api_luck instanceof Array) || mst_ship.api_luck.length !== 2 || mst_ship.api_luck.filter((v: any) => typeof v !== "number").length) return false;
+    if (typeof mst_ship.api_soku !== "number") return false;
+    if (typeof mst_ship.api_leng !== "number") return false;
+    if (typeof mst_ship.api_slot_num !== "number") return false;
+    if (!(mst_ship.api_maxeq instanceof Array) || mst_ship.api_maxeq.length !== 5 || mst_ship.api_maxeq.filter((v: any) => typeof v !== "number").length) return false;
+    if (typeof mst_ship.api_buildtime !== "number") return false;
+    if (!(mst_ship.api_broken instanceof Array) || mst_ship.api_broken.length !== 4 || mst_ship.api_broken.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(mst_ship.api_powup instanceof Array) || mst_ship.api_powup.length !== 4 || mst_ship.api_powup.filter((v: any) => typeof v !== "number").length) return false;
+    if (typeof mst_ship.api_backs !== "number") return false;
+    if (typeof mst_ship.api_getmes !== "string") return false;
+    if (typeof mst_ship.api_afterfuel !== "number") return false;
+    if (typeof mst_ship.api_afterbull !== "number") return false;
+    if (typeof mst_ship.api_fuel_max !== "number") return false;
+    if (typeof mst_ship.api_bull_max !== "number") return false;
+    if (typeof mst_ship.api_voicef !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_slotitem_equiptype instanceof Array)) return false;
+  for (const etype of target.api_data.api_mst_slotitem_equiptype) {
+    if (typeof etype.api_id !== "number") return false;
+    if (typeof etype.api_name !== "string") return false;
+    if (typeof etype.api_show_flg !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_equip_exslot instanceof Array) || target.api_data.api_mst_equip_exslot.filter((v: any) => typeof v !== "number").length) return false;
+  if (typeof target.api_data.api_mst_equip_exslot_ship !== "object") return false;
+  for (const [key, value] of Object.entries(target.api_data.api_mst_equip_exslot_ship) as [ string, any ][]) {
+    if (Number.isNaN(Number(key))) return false;
+    if (typeof value !== "object") return false;
+    if (typeof value.api_ship_ids !== "object" && value.api_ship_ids !== null) return false;
+    for (const [key, val] of Object.entries(value.api_ship_ids)) {
+      if (Number.isNaN(Number(key))) return false;
+      if (typeof val !== "number") return false;
+    }
+    if (typeof value.api_stypes !== "object" && value.api_stypes !== null) return false;
+    for (const [key, val] of Object.entries(value.api_stypes)) {
+      if (Number.isNaN(Number(key))) return false;
+      if (typeof val !== "number") return false;
+    }
+    if (typeof value.api_ctypes !== "object" && value.api_ctypes !== null) return false;
+    for (const [key, val] of Object.entries(value.api_ctypes)) {
+      if (Number.isNaN(Number(key))) return false;
+      if (typeof val !== "number") return false;
+    }
+    if (typeof value.api_req_level !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_stype instanceof Array)) return false;
+  for (const stype of target.api_data.api_mst_stype) {
+    if (typeof stype.api_id !== "number") return false;
+    if (typeof stype.api_sortno !== "number") return false;
+    if (typeof stype.api_name !== "string") return false;
+    if (typeof stype.api_scnt !== "number") return false;
+    if (typeof stype.api_kcnt !== "number") return false;
+    if (typeof stype.api_equip_type !== "object") return false;
+    for (const [key, value] of Object.entries(stype.api_equip_type)) {
+      if (Number.isNaN(Number(key))) return false;
+      if (typeof value !== "number") return false;
+    }
+  }
+  if (!(target.api_data.api_mst_slotitem instanceof Array)) return false;
+  for (const slotitem of target.api_data.api_mst_slotitem) {
+    if (typeof slotitem.api_id !== "number") return false;
+    if (typeof slotitem.api_sortno !== "number") return false;
+    if (typeof slotitem.api_name !== "string") return false;
+    if (!(slotitem.api_type instanceof Array) || slotitem.api_type.length !== 5 || slotitem.api_type.filter((v: any) => typeof v !== "number").length) return false;
+    if (typeof slotitem.api_taik !== "number") return false;
+    if (typeof slotitem.api_souk !== "number") return false;
+    if (typeof slotitem.api_houg !== "number") return false;
+    if (typeof slotitem.api_raig !== "number") return false;
+    if (typeof slotitem.api_soku !== "number") return false;
+    if (typeof slotitem.api_baku !== "number") return false;
+    if (typeof slotitem.api_tyku !== "number") return false;
+    if (typeof slotitem.api_tais !== "number") return false;
+    if (typeof slotitem.api_atap !== "number") return false;
+    if (typeof slotitem.api_houm !== "number") return false;
+    if (typeof slotitem.api_raim !== "number") return false;
+    if (typeof slotitem.api_houk !== "number") return false;
+    if (typeof slotitem.api_raik !== "number") return false;
+    if (typeof slotitem.api_bakk !== "number") return false;
+    if (typeof slotitem.api_saku !== "number") return false;
+    if (typeof slotitem.api_sakb !== "number") return false;
+    if (typeof slotitem.api_luck !== "number") return false;
+    if (typeof slotitem.api_leng !== "number") return false;
+    if (slotitem.api_cost !== void 0 && typeof slotitem.api_cost !== "number") return false;
+    if (slotitem.api_distance !== void 0 && typeof slotitem.api_cost !== "number") return false;
+    if (typeof slotitem.api_rare !== "number") return false;
+    if (!(slotitem.api_broken instanceof Array) || slotitem.api_broken.length !== 4 || slotitem.api_broken.filter((v: any) => typeof v !== "number").length) return false;
+    if (Number.isNaN(Number(slotitem.api_usebull))) return false;
+    if (typeof slotitem.api_version !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_furnituregraph instanceof Array)) return false;
+  for (const furniture of target.api_data.api_mst_furnituregraph) {
+    if (typeof furniture.api_id !== "number") return false;
+    if (typeof furniture.api_type !== "number") return false;
+    if (typeof furniture.api_no !== "number") return false;
+    if (typeof furniture.api_filename !== "string") return false;
+    if (Number.isNaN(Number(furniture.api_version))) return false;
+  }
+  if (!(target.api_data.api_mst_useitem instanceof Array)) return false;
+  for (const item of target.api_data.api_mst_useitem) {
+    if (typeof item.api_id !== "number") return false;
+    if (typeof item.api_usetype !== "number") return false;
+    if (typeof item.api_category !== "number") return false;
+    if (typeof item.api_name !== "string") return false;
+    if (!(item.api_description instanceof Array) || item.api_description.length !== 2 || item.api_description.filter((v: any) => typeof v !== "string").length) return false;
+    if (typeof item.api_price !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_payitem instanceof Array)) return false;
+  for (const item of target.api_data.api_mst_payitem) {
+    if (typeof item.api_id !== "number") return false;
+    if (typeof item.api_type !== "number") return false;
+    if (typeof item.api_name !== "string") return false;
+    if (typeof item.api_description !== "string") return false;
+    if (typeof item.api_shop_description !== "string") return false;
+    if (!(item.api_item instanceof Array) || item.api_item.length !== 8 || item.api_item.filter((v: any) => typeof v !== "number").length) return false;
+    if (typeof item.api_price !== "number") return false;
+  }
+  if (typeof target.api_data.api_mst_item_shop !== "object") return false;
+  if (!(target.api_data.api_mst_item_shop.api_cabinet_1 instanceof Array) || target.api_data.api_mst_item_shop.api_cabinet_1.length !== 12 || target.api_data.api_mst_item_shop.api_cabinet_1.filter((v: any) => typeof v !== "number").length) return false;
+  if (!(target.api_data.api_mst_item_shop.api_cabinet_2 instanceof Array) || target.api_data.api_mst_item_shop.api_cabinet_2.length !== 16 || target.api_data.api_mst_item_shop.api_cabinet_2.filter((v: any) => typeof v !== "number").length) return false;
+  if (!(target.api_data.api_mst_maparea instanceof Array)) return false;
+  for (const area of target.api_data.api_mst_maparea) {
+    if (typeof area.api_id !== "number") return false;
+    if (typeof area.api_name !== "string") return false;
+    if (typeof area.api_type !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_mapinfo)) return false;
+  for (const info of target.api_data.api_mst_mapinfo) {
+    if (typeof info.api_id !== "number") return false;
+    if (typeof info.api_maparea_id !== "number") return false;
+    if (typeof info.api_no !== "number") return false;
+    if (typeof info.api_name !== "string") return false;
+    if (typeof info.api_level !== "number") return false;
+    if (typeof info.api_opetext !== "string") return false;
+    if (typeof info.api_infotext !== "string") return false;
+    if (!(info.api_item instanceof Array) || info.api_item.length !== 4 || info.api_item.filter((v: any) => typeof v !== "number").length) return false;
+    if (info.api_max_maphp !== null && typeof info.api_max_maphp !== "number") return false;
+    if (info.api_required_defeat_count !== null && typeof info.api_required_defeat_count !== "number") return false;
+    if (!(info.api_sally_flag instanceof Array) || info.api_sally_flag.length !== 3 || info.api_sally_flag.filter((v: any) => typeof v !== "number").length) return false;
+  }
+  if (!(target.api_data.api_mst_mapbgm instanceof Array)) return false;
+  for (const bgm of target.api_data.api_mst_mapbgm) {
+    if (typeof bgm.api_id !== "number") return false;
+    if (typeof bgm.api_maparea_id !== "number") return false;
+    if (typeof bgm.api_no !== "number") return false;
+    if (typeof bgm.api_moving_bgm !== "number") return false;
+    if (!(bgm.api_map_bgm instanceof Array) || bgm.api_map_bgm.length !== 2 || bgm.api_map_bgm.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(bgm.api_boss_bgm instanceof Array) || bgm.api_boss_bgm.length !== 2 || bgm.api_boss_bgm.filter((v: any) => typeof v !== "number").length) return false;
+  }
+  if (!(target.api_data.api_mst_mission instanceof Array)) return false;
+  for (const mission of target.api_data.api_mst_mission) {
+    if (typeof mission.api_id !== "number") return false;
+    if (typeof mission.api_disp_no !== "string") return false;
+    if (typeof mission.api_maparea_id !== "number") return false;
+    if (typeof mission.api_name !== "string") return false;
+    if (typeof mission.api_details !== "string") return false;
+    if (typeof mission.api_reset_type !== "number") return false;
+    if (typeof mission.api_damage_type !== "number") return false;
+    if (typeof mission.api_time !== "number") return false;
+    if (typeof mission.api_deck_num !== "number") return false;
+    if (typeof mission.api_difficulty !== "number") return false;
+    if (typeof mission.api_use_fuel !== "number") return false;
+    if (typeof mission.api_use_bull !== "number") return false;
+    if (!(mission.api_win_item1 instanceof Array) || mission.api_win_item1.length !== 2 || mission.api_win_item1.filter((v: any) => typeof v != "number").length) return false;
+    if (!(mission.api_win_item2 instanceof Array) || mission.api_win_item2.length !== 2 || mission.api_win_item2.filter((v: any) => typeof v != "number").length) return false;
+    if (!(mission.api_win_mat_level instanceof Array) || mission.api_win_mat_level.length !== 4 || mission.api_win_mat_level.filter((v: any) => typeof v != "number").length) return false;
+    if (typeof mission.api_return_flag !== "number") return false;
+    if (!(mission.api_sample_fleet instanceof Array) || mission.api_sample_fleet.length !== 6 || mission.api_sample_fleet.filter((v: any) => typeof v != "number").length) return false;
+  }
+  if (typeof target.api_data.api_mst_const !== "object") return false;
+  if (typeof target.api_data.api_mst_const.api_parallel_quest_max !== "object") return false;
+  if (typeof target.api_data.api_mst_const.api_parallel_quest_max.api_string_value !== "string") return false;
+  if (typeof target.api_data.api_mst_const.api_parallel_quest_max.api_int_value !== "number") return false;
+  if (typeof target.api_data.api_mst_const.api_dpflag_quest !== "object") return false;
+  if (typeof target.api_data.api_mst_const.api_dpflag_quest.api_string_value !== "string") return false;
+  if (typeof target.api_data.api_mst_const.api_dpflag_quest.api_int_value !== "number") return false;
+  if (typeof target.api_data.api_mst_const.api_boko_max_ships !== "object") return false;
+  if (typeof target.api_data.api_mst_const.api_boko_max_ships.api_string_value !== "string") return false;
+  if (typeof target.api_data.api_mst_const.api_boko_max_ships.api_int_value !== "number") return false;
+  if (!(target.api_data.api_mst_shipupgrade instanceof Array)) return false;
+  for (const upgrade of target.api_data.api_mst_shipupgrade) {
+    if (typeof upgrade.api_id !== "number") return false;
+    if (typeof upgrade.api_current_ship_id !== "number") return false;
+    if (typeof upgrade.api_upgrade_type !== "number") return false;
+    if (typeof upgrade.api_upgrade_level !== "number") return false;
+    if (typeof upgrade.api_drawing_count !== "number") return false;
+    if (typeof upgrade.api_catapult_count !== "number") return false;
+    if (typeof upgrade.api_report_count !== "number") return false;
+    if (typeof upgrade.api_aviation_mat_count !== "number") return false;
+    if (typeof upgrade.api_arms_mat_count !== "number") return false;
+    if (typeof upgrade.api_sortno !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_bgm instanceof Array)) return false;
+  for (const bgm of target.api_data.api_mst_bgm) {
+    if (typeof bgm.api_id !== "number") return false;
+    if (typeof bgm.api_name !== "string") return false;
+  }
+  if (!(target.api_data.api_mst_equip_ship instanceof Array)) return false;
+  for (const equip of target.api_data.api_mst_equip_ship) {
+    if (typeof equip.api_ship_id !== "number") return false;
+    if (!(equip.api_equip_type instanceof Array) || equip.api_equip_type.filter((v: any) => typeof v !== "number").length) return false;
+  }
+  if (!(target.api_data.api_mst_furniture instanceof Array)) return false;
+  for (const furniture of target.api_data.api_mst_furniture) {
+    if (typeof furniture.api_id !== "number") return false;
+    if (typeof furniture.api_type !== "number") return false;
+    if (typeof furniture.api_no !== "number") return false;
+    if (typeof furniture.api_title !== "string") return false;
+    if (typeof furniture.api_description !== "string") return false;
+    if (typeof furniture.api_rarity !== "number") return false;
+    if (typeof furniture.api_price !== "number") return false;
+    if (typeof furniture.api_saleflg !== "number") return false;
+    if (typeof furniture.api_season !== "number") return false;
+    if (typeof furniture.api_version !== "number") return false;
+    if (typeof furniture.api_outside_id !== "number") return false;
+    if (typeof furniture.api_active !== "number") return false;
+  }
+  if (!(target.api_data.api_mst_shipgraph instanceof Array)) return false;
+  for (const graph of target.api_data.api_mst_shipgraph) {
+    if (typeof graph.api_id !== "number") return false;
+    if (typeof graph.api_filename !== "string") return false;
+    if (!(graph.api_version instanceof Array) || graph.api_version.length !== 3 || graph.api_version.filter((v: any) => Number.isNaN(Number(v))).length) return false;
+    if (graph.api_battle_n === void 0) break;
+    if (!(graph.api_battle_n instanceof Array) || graph.api_battle_n.length !== 2 || graph.api_battle_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_battle_d instanceof Array) || graph.api_battle_d.length !== 2 || graph.api_battle_d.filter((v: any) => typeof v !== "number").length) return false;
+    if (typeof graph.api_sortno !== "number") return false;
+    if (!(graph.api_boko_n instanceof Array) || graph.api_boko_n.length !== 2 || graph.api_boko_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_boko_d instanceof Array) || graph.api_boko_d.length !== 2 || graph.api_boko_d.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_kaisyu_n instanceof Array) || graph.api_kaisyu_n.length !== 2 || graph.api_kaisyu_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_kaisyu_d instanceof Array) || graph.api_kaisyu_d.length !== 2 || graph.api_kaisyu_d.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_kaizo_n instanceof Array) || graph.api_kaizo_n.length !== 2 || graph.api_kaizo_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_kaizo_d instanceof Array) || graph.api_kaizo_d.length !== 2 || graph.api_kaizo_d.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_map_n instanceof Array) || graph.api_map_n.length !== 2 || graph.api_map_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_map_d instanceof Array) || graph.api_map_d.length !== 2 || graph.api_map_d.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_ensyuf_n instanceof Array) || graph.api_ensyuf_n.length !== 2 || graph.api_ensyuf_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_ensyuf_d instanceof Array) || graph.api_ensyuf_d.length !== 2 || graph.api_ensyuf_d.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_ensyue_n instanceof Array) || graph.api_ensyue_n.length !== 2 || graph.api_ensyue_n.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_weda instanceof Array) || graph.api_weda.length !== 2 || graph.api_weda.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_webd instanceof Array) || graph.api_webd.length !== 2 || graph.api_webd.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_pa instanceof Array) || graph.api_pa.length !== 2 || graph.api_pa.filter((v: any) => typeof v !== "number").length) return false;
+    if (!(graph.api_pab instanceof Array) || graph.api_pab.length !== 2 || graph.api_pab.filter((v: any) => typeof v !== "number").length) return false;
+  }
+  return true;
 }
