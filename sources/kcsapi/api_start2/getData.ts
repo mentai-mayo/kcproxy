@@ -353,79 +353,111 @@ export interface ResponseBody {
     }[];
     /** 遠征 */
     api_mst_mission: {
+      /** ID */
       api_id: number;
+      /** 表示番号 */
       api_disp_no: string; // printf("%02d", number)
+      /** 所属海域 */
       api_maparea_id: number;
+      /** 遠征名 */
       api_name: string;
+      /** 遠征詳細 */
       api_details: string;
       api_reset_type: number;
       api_damage_type: number;
-      api_time: 15;
+      /** 遠征時間 (min) */
+      api_time: number;
+      /** 編成数 */
       api_deck_num: number;
+      /** 難易度 */
       api_difficulty: number;
+      /** 燃料消費 */
       api_use_fuel: number;
+      /** 弾薬消費 */
       api_use_bull: number;
+      /** 獲得可能資材1 [ ID, 個数 ] */
       api_win_item1: [ number, number ];
+      /** 獲得可能資材2 [ ID, 個数 ] */
       api_win_item2: [ number, number ];
+      /** 入手資材量 [ 燃料, 弾薬, 鋼材, ボーキ ] */
       api_win_mat_level: [ number, number, number, number ];
       api_return_flag: number;
+      /** サンプル艦隊表示 */
       api_sample_fleet: [ number, number, number, number, number, number ];
     }[];
-    /** */
+    /** 司令部定数 */
     api_mst_const: {
+      /** 最大受領可能任務数 */
       api_parallel_quest_max: {
         api_string_value: string;
         api_int_value: number;
       };
+      /** */
       api_dpflag_quest: {
         api_string_value: string;
         api_int_value: number;
       };
+      /** 最大保有可能艦娘数 */
       api_boko_max_ships: {
         api_string_value: string;
         api_int_value: number;
       };
     };
-    /** */
+    /** 改造データ */
     api_mst_shipupgrade: {
+      /** (改造先艦娘 ?)ID */
       api_id: number;
+      /** */
       api_current_ship_id: number;
+      /** 改造元艦娘ID ? */
       api_original_ship_id: number;
       api_upgrade_type: number;
       api_upgrade_level: number;
+      /** 要求設計図数 */
       api_drawing_count: number;
+      /** 要求カタパルト数 */
       api_catapult_count: number;
+      /** 要求戦闘詳報数 */
       api_report_count: number;
+      /** 要求新型航空兵装資材数 */
       api_aviation_mat_count: number;
+      /** 要求新型砲熕兵装資材数 */
       api_arms_mat_count: number;
       api_sortno: number;
     }[];
     /** BGM */
     api_mst_bgm: {
+      /** ID */
       api_id: number;
+      /** 曲名 */
       api_name: string;
     }[];
-    /** */
+    /** 装備が搭載可能かどうか？ */
     api_mst_equip_ship: {
       api_ship_id: number;
       api_equip_type: number[];
     }[];
-    /** */
+    /** 家具詳細 */
     api_mst_furniture: {
+      /** ID */
       api_id: number;
       api_type: number;
       api_no: number;
+      /** 家具名 */
       api_title: string;
+      /** 説明 */
       api_description: string;
       api_rarity: number;
+      /** 値段 (家具コイン) */
       api_price: number;
+      /** 現在販売されているかどうか (0 or 1 ?) */
       api_saleflg: number;
       api_season: number;
       api_version: number;
       api_outside_id: number;
       api_active: number;
     }[];
-    /** */
+    /** 艦娘グラフィック関連 */
     api_mst_shipgraph: ({
       api_id: number;
       api_filename: string;
