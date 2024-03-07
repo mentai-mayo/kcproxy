@@ -1,8 +1,6 @@
 
 import { _tools as defaults } from "../../kcsapi.js";
 
-const path = "/kcsapi/api_start2/getData";
-
 export interface RequestBody {
   /** hex */
   api_token: string;
@@ -21,7 +19,7 @@ export interface ResponseBody {
   /** main content */
   api_data: {
     /** 艦娘マスタデータ */
-    api_mst_ship: {
+    api_mst_ship: ({
       /** ID */
       api_id: number;
       /** 図鑑番号 */
@@ -135,7 +133,24 @@ export interface ResponseBody {
       api_bull_max: number;
       /** ボイス関連の何かだとは思う */
       api_voicef: number;
-    }[];
+    } | {
+      /** ID */
+      api_id: number;
+      /** 図鑑番号 */
+      api_sort_id: number;
+      /** 艦名 */
+      api_name: string;
+      /** 艦名の読み */
+      api_yomi: string;
+      /** 艦種 */
+      api_stype: number;
+      /** 艦級 */
+      api_ctype: number;
+      /** 艦速 */
+      api_soku: number;
+      /** 使用可能スロット数 */
+      api_slot_num: number;
+    })[];
     /** 装備アイテムタイプマスタデータ */
     api_mst_slotitem_equiptype: {
       /** ID */
@@ -506,6 +521,9 @@ export function isResponseBody(target: any): target is ResponseBody {
     if (typeof mst_ship.api_yomi !== "string") return false;
     if (typeof mst_ship.api_stype !== "number") return false;
     if (typeof mst_ship.api_ctype !== "number") return false;
+    if (typeof mst_ship.api_soku !== "number") return false;
+    if (typeof mst_ship.api_slot_num !== "number") return false;
+    if (mst_ship.api_afterlv === void 0) break;
     if (typeof mst_ship.api_afterlv !== "number") return false;
     if (Number.isNaN(Number(mst_ship.api_aftershipid))) return false;
     if (!(mst_ship.api_taik instanceof Array) || mst_ship.api_taik.length !== 2 || mst_ship.api_taik.filter((v: any) => typeof v !== "number").length) return false;
@@ -514,9 +532,7 @@ export function isResponseBody(target: any): target is ResponseBody {
     if (!(mst_ship.api_raig instanceof Array) || mst_ship.api_raig.length !== 2 || mst_ship.api_raig.filter((v: any) => typeof v !== "number").length) return false;
     if (!(mst_ship.api_tyku instanceof Array) || mst_ship.api_tyku.length !== 2 || mst_ship.api_tyku.filter((v: any) => typeof v !== "number").length) return false;
     if (!(mst_ship.api_luck instanceof Array) || mst_ship.api_luck.length !== 2 || mst_ship.api_luck.filter((v: any) => typeof v !== "number").length) return false;
-    if (typeof mst_ship.api_soku !== "number") return false;
     if (typeof mst_ship.api_leng !== "number") return false;
-    if (typeof mst_ship.api_slot_num !== "number") return false;
     if (!(mst_ship.api_maxeq instanceof Array) || mst_ship.api_maxeq.length !== 5 || mst_ship.api_maxeq.filter((v: any) => typeof v !== "number").length) return false;
     if (typeof mst_ship.api_buildtime !== "number") return false;
     if (!(mst_ship.api_broken instanceof Array) || mst_ship.api_broken.length !== 4 || mst_ship.api_broken.filter((v: any) => typeof v !== "number").length) return false;
