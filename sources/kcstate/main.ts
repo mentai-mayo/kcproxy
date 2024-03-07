@@ -1,5 +1,5 @@
 
-import * as kcsapi from "../kcsapi.js";
+import kcsapi from "../kcsapi.type.js";
 
 /** マスタデータ */
 export namespace MasterData {
@@ -28,9 +28,9 @@ export namespace MasterData {
       this.equip_types = data.equip_types;
     }
 
-    public static from(data: kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_stype"][number]): ShipType;
-    public static from(data: kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_stype"]): ShipType[];
-    public static from(data: kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_stype"] | kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_stype"][number]): ShipType[] | ShipType {
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_stype"][number]): ShipType;
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_stype"]): ShipType[];
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_stype"] | kcsapi.api_start2.getData.Response["api_data"]["api_mst_stype"][number]): ShipType[] | ShipType {
       if (data instanceof Array) {
         return data.map(v => ShipType.from(v)) as ShipType[];
       }
@@ -127,9 +127,9 @@ export namespace MasterData {
     /** 利用可能スロット数 */
     public readonly slotcnt: number;
 
-    public static from(data: kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip;
-    public static from(data: kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_ship"]): (EnemyShip | FriendShip)[];
-    public static from(data: kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_ship"] | kcsapi.api_start2.getData.ResponseBody["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip | (EnemyShip | FriendShip)[] {
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip;
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"]): (EnemyShip | FriendShip)[];
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"] | kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip | (EnemyShip | FriendShip)[] {
       if (data instanceof Array) {
         return data.map(v => EnemyShip.from(v));
       }

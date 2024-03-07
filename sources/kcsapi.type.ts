@@ -753,3 +753,5 @@ namespace defaults {
     api_data: { [key: string]: any };
   }
 }
+
+export default kcsapi;
