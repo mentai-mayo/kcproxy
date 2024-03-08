@@ -96,7 +96,7 @@ namespace kcsapi {
         }
       }
       /** 艦娘マスタデータ */
-      interface ResFriendShipMaster {
+      export interface ResFriendShipMaster {
         /** ID */
         api_id: number;
         /** 図鑑番号 */
@@ -157,7 +157,7 @@ namespace kcsapi {
         api_voicef: number; // 1: 放置ボイス, 2: 時報, 3: 特殊放置ボイス (放置ボイスは5minおき、cond >= 50かつ特殊放置ボイス利用可能ならそれを利用)
       }
       /** 深海棲艦マスタデータ */
-      interface ResEnemyShipMaster {
+      export interface ResEnemyShipMaster {
         /** ID */
         api_id: number;
         /** 母港ソート順 ? */

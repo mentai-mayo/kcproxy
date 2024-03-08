@@ -52,23 +52,104 @@ export namespace MasterData {
     }
   }
 
-  export class FriendShip {
+  interface ShipSuperSet {
+    /** ID */
+    id: number;
+    /** 艦名 */
+    name: string;
+    /** 艦種 */
+    stype: number;
+    /** 速力 */
+    speed: number; // 5: 低速, 10: 高速
+    /** 利用可能スロット数 */
+    slotcnt: number;
+    /** `艦娘` 図鑑番号 */
+    index?: number;
+    /** `艦娘` 母港ソート順 ? */
+    sort?: number;
+    /** `艦娘` 艦名の読み */
+    reading?: string;
+    /** `艦娘` 艦級 / `深海` 階級 */
+    sclass: number | "" | "-" | "eliete" | "flagship";
+    /** `艦娘` 改装 */
+    remodel?: {
+      /** 改装Lv. */
+      level?: number;
+      /** 改装先艦船ID */
+      id?: number;
+      /** 消費資材量 */
+      require: [ number | undefined, number | undefined ];
+    }
+    /** `艦娘` ステータス [ 初期値, 最大(Lv.99)値 ] */
+    status?: {
+      /** 耐久 */
+      hp?: [ number, number ];
+      /** 装甲 */
+      armor?: [ number, number ];
+      /** 火力 */
+      power?: [ number, number ];
+      /** 雷装 */
+      torpedo?: [ number, number ];
+      /** 対空 */
+      antiair?: [ number, number ];
+      /** 運 */
+      luck?: [ number, number ];
+    }
+    /** `艦娘` 射程 */
+    range?: number; // 1: 短, 2: 中, 3: 長, 4: 超長
+    /** `艦娘` 搭載 */
+    aircrafts?: [ number, number, number, number, number ];
+    /** `艦娘` 建造時間 */
+    construction_timer?: number; // min
+    /** `艦娘` 解体時入手資材量 [ 燃料, 弾薬, 鋼材, ボーキ ] */
+    dismantle?: [ number, number, number, number ];
+    /** `艦娘` 搭載資材量 [ 燃料, 弾薬 ] */
+    consumption?: [ number, number ];
+    /** `艦娘` レアリティ */
+    rarity?: number;
+    /** `艦娘` 入手時メッセージ */
+    get_msg?: string;
+  }
+  class Ship {
     /** ID */
     public readonly id: number;
-    /** 図鑑番号 */
-    public readonly sortno: number;
     /** 艦名 */
     public readonly name: string;
-    /** 艦名の読み */
-    public readonly reading: string;
-    /** 艦種 (ShipType) */
-    public readonly stype: ShipType;
-    /** 艦級 (ShipClass) */
-    public readonly sclass: number;
+    /** 艦種 */
+    public readonly stype: number;
     /** 速力 */
     public readonly speed: number; // 5: 低速, 10: 高速
     /** 利用可能スロット数 */
     public readonly slotcnt: number;
+
+    protected constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number }) {
+      this.id = data.id;
+      this.name = data.name;
+      this.stype = data.stype;
+      this.speed = data.speed;
+      this.slotcnt = data.slotcnt;
+    }
+
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip;
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"]): (EnemyShip | FriendShip)[];
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"] | kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip | (EnemyShip | FriendShip)[] {
+      if (data instanceof Array) {
+        return data.map(v => Ship.from(v));
+      }
+      const isFriend = ((target: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): target is kcsapi.api_start2.getData.ResFriendShipMaster => (Object.keys(target).length >= 29))(data);
+      const ship = {} as ShipSuperSet;
+    }
+  }
+
+  export class FriendShip extends Ship {
+    /** 図鑑番号 */
+    public readonly index: number;
+    /** 母港ソート順 ? */
+    public readonly sort: number;
+    /** 艦名の読み */
+    public readonly reading: string;
+    /** 艦級 (ShipClass) */
+    public readonly sclass: number;
     /** 改装 */
     public readonly remodel: {
       /** 改装レベル */
@@ -76,7 +157,7 @@ export namespace MasterData {
       /** 改装先艦船ID */
       id: number;
       /** 消費資材量 [ 鋼材, 弾薬 ] */
-      reqire: [ number, number ];
+      require: [ number, number ];
     };
     /** ステータス [ 初期値, 最大(Lv.99)値 ] */
     public readonly status: {
@@ -107,35 +188,32 @@ export namespace MasterData {
     public readonly rarity: number;
     /** 入手時メッセージ */
     public readonly get_msg: string;
+
+    private constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number, index: number, sort: number, reading: string, sclass: number, remodel: { level: number, id: number, require: [ number, number ] }, status: { hp: [ number, number ], armor: [ number, number ], power: [ number, number ], torpedo: [ number, number ], antiair: [ number, number ], luck: [ number, number ] }, range: number, aircrafts: [ number, number, number, number, number ], construction_timer: number, dismantle: [ number, number, number, number ], consumption: [ number, number ], rarity: number, get_msg: string }) {
+      super(data);
+      this.index = data.index;
+      this.sort = data.sort;
+      this.reading = data.reading;
+      this.sclass = data.sclass;
+      this.remodel = data.remodel;
+      this.status = data.status;
+      this.range = data.range;
+      this.aircrafts = data.aircrafts;
+      this.construction_timer = data.construction_timer;
+      this.dismantle = data.dismantle;
+      this.consumption = data.consumption;
+      this.rarity = data.rarity;
+      this.get_msg = data.get_msg;
+    }
   }
 
-  export class EnemyShip {
-    /** ID */
-    public readonly id: number;
-    /** 図鑑番号 */
-    public readonly sortno: number;
-    /** 艦名 */
-    public readonly name: string;
-    /** 艦名の読み */
-    public readonly reading: string;
-    /** 艦種 (ShipType) */
-    public readonly stype: ShipType;
-    /** 艦級 (ShipClass) */
-    public readonly sclass: number;
-    /** 速力 */
-    public readonly speed: number; // 5: 低速, 10: 高速
-    /** 利用可能スロット数 */
-    public readonly slotcnt: number;
+  export class EnemyShip extends Ship {
+    /** 階級 */
+    public readonly sclass: "" | "-" | "elite" | "flagship";
 
-    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip;
-    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"]): (EnemyShip | FriendShip)[];
-    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"] | kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): EnemyShip | FriendShip | (EnemyShip | FriendShip)[] {
-      if (data instanceof Array) {
-        return data.map(v => EnemyShip.from(v));
-      }
-      const ship = {} as { id: number, sortno: number, name: string, reading: string, stype: ShipType, sclass: number, speed: number, slotcnt: number } & ({ } | { remodel: { level: number, id: number, require: [ number, number ] }, status: { hp: [ number, number ], armor: [ number, number ], power: [ number, number ], torpedo: [ number, number ], antiair: [ number, number ], luck: [ number, number ] }, range: number, aircrafts: [ number, number, number, number, number ], construction_timer: number, dismantle: [ number, number, number, number ], consumption: [ number, number ], rarity: number, get_msg: string });
-      ship.id = data.api_id;
-      ship.sortno = data.api_sortno;
+    private constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number, sclass: "" | "-" | "elite" | "flagship" }) {
+      super(data);
+      this.sclass = data.sclass;
     }
   }
 }
