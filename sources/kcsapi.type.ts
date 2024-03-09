@@ -122,7 +122,7 @@ namespace kcsapi {
         /** 火力 */
         api_houg: [ number, number ]; // [ 初期値, 最大値 ]
         /** 雷装 */
-        api_raug: [ number, number ]; // [ 初期値, 最大値 ]
+        api_raig: [ number, number ]; // [ 初期値, 最大値 ]
         /** 対空 */
         api_tyku: [ number, number ]; // [ 初期値, 最大値 ]
         /** 運 */
@@ -170,7 +170,7 @@ namespace kcsapi {
         api_stype: number;
         /** 艦級 */
         api_ctype: 1 /* 1 */; // 1 ?
-        /** 艦速 */
+        /** 速力 */
         api_soku: number; // 5: 低速 10: 高速
         /** 利用可能装備スロット数 */
         api_slot_num: number;
