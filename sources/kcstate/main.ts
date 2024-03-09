@@ -77,7 +77,7 @@ export namespace MasterData {
       level?: number;
       /** 改装先艦船ID */
       id?: number;
-      /** 消費資材量 */
+      /** 消費資材量 [ 鋼材, 弾薬 ] */
       require: [ number | undefined, number | undefined ];
     }
     /** `艦娘` ステータス [ 初期値, 最大(Lv.99)値 ] */
@@ -138,6 +138,39 @@ export namespace MasterData {
       }
       const isFriend = ((target: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): target is kcsapi.api_start2.getData.ResFriendShipMaster => (Object.keys(target).length >= 29))(data);
       const ship = {} as ShipSuperSet;
+
+      ship.id      = data.api_id;
+      ship.name    = data.api_name;
+      ship.stype   = data.api_stype;
+      ship.speed   = data.api_soku;
+      ship.slotcnt = data.api_slot_num;
+      ship.sclass  = ([ "", "-", "eliete", "flagship" ].includes(data.api_yomi)) ? data.api_yomi as ("" | "-" | "eliete" | "flagship") : data.api_stype;
+      if (((_p: any): _p is kcsapi.api_start2.getData.ResEnemyShipMaster => typeof ship.sclass === "string")(data)) return new EnemyShip(ship as { id: number, name: string, stype: number, speed: number, slotcnt: number, sclass: "" | "-" | "elite" | "flagship" });
+      ship.index   = data.api_sortno;
+      ship.sort    = data.api_sort_id;
+      ship.reading = data.api_yomi;
+      ship.sclass  = data.api_stype;
+      ship.remodel = {
+        level:   data.api_afterlv,
+        id:      Number(data.api_aftershipid),
+        require: [ data.api_afterfuel, data.api_afterbull ],
+      };
+      ship.status = {
+        hp:      data.api_taik,
+        armor:   data.api_souk,
+        power:   data.api_houg,
+        torpedo: data.api_raig,
+        antiair: data.api_tyku,
+        luck:    data.api_luck,
+      };
+      ship.range       = data.api_leng;
+      ship.aircrafts   = data.api_maxeq;
+      ship.construction_timer = data.api_buildtime;
+      ship.dismantle   = data.api_broken;
+      ship.consumption = [ data.api_fuel_max, data.api_bull_max ];
+      ship.rarity      = data.api_backs;
+      ship.get_msg     = data.api_getmes;
+      return new FriendShip(ship);
     }
   }
 
@@ -189,7 +222,7 @@ export namespace MasterData {
     /** 入手時メッセージ */
     public readonly get_msg: string;
 
-    private constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number, index: number, sort: number, reading: string, sclass: number, remodel: { level: number, id: number, require: [ number, number ] }, status: { hp: [ number, number ], armor: [ number, number ], power: [ number, number ], torpedo: [ number, number ], antiair: [ number, number ], luck: [ number, number ] }, range: number, aircrafts: [ number, number, number, number, number ], construction_timer: number, dismantle: [ number, number, number, number ], consumption: [ number, number ], rarity: number, get_msg: string }) {
+    protected constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number, index: number, sort: number, reading: string, sclass: number, remodel: { level: number, id: number, require: [ number, number ] }, status: { hp: [ number, number ], armor: [ number, number ], power: [ number, number ], torpedo: [ number, number ], antiair: [ number, number ], luck: [ number, number ] }, range: number, aircrafts: [ number, number, number, number, number ], construction_timer: number, dismantle: [ number, number, number, number ], consumption: [ number, number ], rarity: number, get_msg: string }) {
       super(data);
       this.index = data.index;
       this.sort = data.sort;
@@ -211,7 +244,7 @@ export namespace MasterData {
     /** 階級 */
     public readonly sclass: "" | "-" | "elite" | "flagship";
 
-    private constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number, sclass: "" | "-" | "elite" | "flagship" }) {
+    protected constructor(data: { id: number, name: string, stype: number, speed: number, slotcnt: number, sclass: "" | "-" | "elite" | "flagship" }) {
       super(data);
       this.sclass = data.sclass;
     }
