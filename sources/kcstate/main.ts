@@ -110,6 +110,71 @@ export namespace MasterData {
     /** `艦娘` 入手時メッセージ */
     get_msg?: string;
   }
+
+  class _Ship {
+    /** ID */
+    id: number;
+    /** 図鑑番号 */
+    index: number;
+    /** 母港ソート順 ? */
+    sort: number;
+    /** 艦名 */
+    name: string;
+    /** 艦名の読み */
+    reading: string;
+    /** 艦種 */
+    stype: number;
+    /** 艦級 */
+    sclass: number;
+    /** ステータス */
+    status: {
+      /** 耐久 */
+      hp: { init: number, max: number };
+      /** 装甲 */
+      armor: { init: number, max: number };
+      /** 火力 */
+      power: { init: number, max: number };
+      /** 雷装 */
+      torpedo: { init: number, max: number };
+      /** 対空 */
+      antiair: { init: number, max: number };
+      /** 運 */
+      luck: { init: number, max: number };
+    }
+    /** 速力 */
+    speed: number; // 5: 低速, 10: 高速
+    /** 射程 */
+    range: number; // 1: 短, 2: 中, 3: 長, 4: 超長
+    /** 利用可能スロット数 */
+    slotcnt: number;
+    /** 搭載数 */
+    aircrafts: [ number, number, number, number, number ];
+    /** 建造時間 */
+    construction_timer: number; // min
+    /** 解体時入手資材量 */
+    dismantle: [ number, number, number, number ]; // [ 燃料, 弾薬, 鋼材, ボーキ ]
+    /** 改修時ステータス上昇量 */
+    modernization: [ number, number, number, number ]; // [ 火力, 雷装, 対空, 装甲 ]
+    /** レアリティ */
+    rarity: number; // 1: 藍, 2: 青, 3: 水, 4: 銀, 5: 金, 6: 虹, 7: 輝虹, 8: 桜虹
+    /** 入手時メッセージ */
+    get_msg: string; // 改行は"<br>"
+    /** 改装 */
+    remodel: {
+      /** 改装先艦船ID */
+      id: number;
+      /** 改装Lv. */
+      level: number;
+    }
+    /** 搭載資材量 */
+    consumption: [ number, number ]; // [ 燃料, 弾薬 ]
+    /** ボイス設定フラグ */
+    voice_flag: number; // 1: 放置ボイス, 2: 時報, 3: 特殊放置ボイス (放置ボイスは5minおき、cond >= 50かつ特殊放置ボイス利用可能ならそれを利用)
+
+    /** その他 */
+    additional: Map<string, any>;
+  }
+
   class Ship {
     /** ID */
     public readonly id: number;
@@ -136,7 +201,6 @@ export namespace MasterData {
       if (data instanceof Array) {
         return data.map(v => Ship.from(v));
       }
-      const isFriend = ((target: kcsapi.api_start2.getData.Response["api_data"]["api_mst_ship"][number]): target is kcsapi.api_start2.getData.ResFriendShipMaster => (Object.keys(target).length >= 29))(data);
       const ship = {} as ShipSuperSet;
 
       ship.id      = data.api_id;
