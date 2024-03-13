@@ -201,8 +201,49 @@ export namespace MasterData {
       /** additional keys in `data` */
       const additional_keys = keys.filter(key => !(Ship.defined_keys as readonly string[]).includes(key));
       ship.additional = new Map(additional_keys.map(key => [ key, (data as { [key: string]: any })[key] ]));
-
       return ship;
+    }
+
+    public toString(): string {
+      return `[Ship.${ this.id } "${ this.name }"]`;
+    }
+    public toLogStr(): string {
+      return `[Ship.${ this.id } "${ this.name }", ${ JSON.stringify(this) }]`;
+    }
+  }
+
+  class EquipType {
+    /** 装備種ID */
+    public id: number;
+    /** 装備種名 */
+    public name: string;
+    /** ? */
+    public show_flag: boolean;
+
+    private constructor() {
+      this.id = 0;
+      this.name = "(未定義)";
+      this.show_flag = false;
+    }
+
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_slotitem_equiptype"]): EquipType[];
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_slotitem_equiptype"][number]): EquipType;
+    public static from(data: kcsapi.api_start2.getData.Response["api_data"]["api_mst_slotitem_equiptype"][number] | kcsapi.api_start2.getData.Response["api_data"]["api_mst_slotitem_equiptype"]): EquipType | EquipType[] {
+      if (data instanceof Array) {
+        return data.map(v =>  EquipType.from(v));
+      }
+      const etype = new EquipType;
+      etype.id = data.api_id;
+      etype.name = data.api_name;
+      etype.show_flag = Boolean(data.api_show_flg);
+      return etype;
+    }
+
+    public toString(): string {
+      return `[EquipType.${ this.id } "${ this.name }"]`;
+    }
+    public toLogStr(): string {
+      return `[EquipType.${ this.id } "${ this.name }" flag:${ this.show_flag }]`;
     }
   }
 }
